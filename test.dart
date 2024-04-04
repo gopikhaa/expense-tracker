@@ -1,1 +1,3 @@
-new data
+class Task {
+
+}
