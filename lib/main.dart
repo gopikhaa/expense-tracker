@@ -4,6 +4,7 @@ import 'package:expense_tracker/auth/authPage.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
