@@ -1,5 +1,9 @@
+import 'package:expense_tracker/network/repo/repo.dart';
+import 'package:expense_tracker/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/services/functions/account_manager.dart';
 import 'package:expense_tracker/services/functions/transaction_category_manager.dart';
@@ -8,30 +12,66 @@ import 'package:expense_tracker/services/pages/others/editExpensePage.dart';
 import 'package:expense_tracker/services/pages/others/editIncomePage.dart';
 import 'package:expense_tracker/services/pages/others/editTransferPage.dart';
 
-class TransactionItem extends StatelessWidget {
-  TransactionItem({required this.transaction, required this.editTransaction, Key? key}) : super(key: key);
+class TransactionItem extends StatefulWidget {
+  TransactionItem(
+      {required this.transaction, required this.editTransaction, Key? key})
+      : super(key: key);
   final Trans transaction;
-  final format = DateFormat('d/M/yy');
   final Function editTransaction;
 
   @override
+  State<TransactionItem> createState() => _TransactionItemState();
+}
+
+class _TransactionItemState extends State<TransactionItem> {
+  final format = DateFormat('d/M/yy');
+  var box = GetStorage();
+  var fromCurrency = "";
+  var toCurrency = "";
+  double fromCurrencyVal = 0.0;
+  @override
+  void initState() {
+    box = GetStorage();
+    fromCurrency = box.read("currency") ?? "INR";
+    toCurrency = box.read("to_currency") ?? "INR";
+
+    print('fromCurrencyVal:${fromCurrencyVal}');
+    print('toCurrency:${toCurrency}');
+    print('fromCurrency:${fromCurrency}');
+
+    fromCurrencyVal = currencyValues[fromCurrency];
+    print('fromCurrencyVal:${fromCurrencyVal}');
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    fromCurrencyVal = currencyValues[fromCurrency];
+    print('fromCurrencyVal:${fromCurrencyVal}');
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => transaction.type == Type.Transfer
-                ? EditTransferPage(editTransfer: editTransaction, transfer: transaction)
-                : transaction.type == Type.Income
-                    ? EditIncomePage(editTrans: editTransaction, tran: transaction)
-                    : EditExpensePage(editTrans: editTransaction, tran: transaction),
+            builder: (context) => widget.transaction.type == Type.Transfer
+                ? EditTransferPage(
+                    editTransfer: widget.editTransaction,
+                    transfer: widget.transaction)
+                : widget.transaction.type == Type.Income
+                    ? EditIncomePage(
+                        editTrans: widget.editTransaction,
+                        tran: widget.transaction)
+                    : EditExpensePage(
+                        editTrans: widget.editTransaction,
+                        tran: widget.transaction),
           ),
         );
       },
       child: Card(
+        color: Color.fromARGB(255, 6, 41, 154),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(1),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -41,13 +81,25 @@ class TransactionItem extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    format.format(transaction.date),
+                    format.format(
+                      widget.transaction.date,
+                    ),
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                   Text(
-                    transaction.type == Type.Transfer
-                        ? AccountManager.findAccById(transaction.acc2Id).name
-                        : TransactionCategoryManager.getCategoryFromId(transaction.category).name,
-                    style: TextStyle(color: Colors.black38),
+                    widget.transaction.type == Type.Transfer
+                        ? AccountManager.findAccById(widget.transaction.acc2Id)
+                            .name
+                        : TransactionCategoryManager.getCategoryFromId(
+                                widget.transaction.category)
+                            .name,
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ],
               ),
@@ -56,19 +108,27 @@ class TransactionItem extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  AccountManager.findAccById(transaction.accId).name,
-                  style: TextStyle(color: Colors.black38),
+                  AccountManager.findAccById(widget.transaction.accId).name,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
-                Text(transaction.note),
+                Text(
+                  widget.transaction.note,
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
               ],
             ),
             const Spacer(),
             Text(
-              transaction.amount.toString() + '\$',
+              '${(widget.transaction.amount * currencyValues[toCurrency]).toStringAsFixed(2)} $toCurrency',
               style: TextStyle(
-                  color: (transaction.type == Type.Income)
-                      ? Colors.blue
-                      : (transaction.type == Type.Expense)
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: (widget.transaction.type == Type.Income)
+                      ? Colors.lightGreen
+                      : (widget.transaction.type == Type.Expense)
                           ? Colors.red
                           : Colors.black54),
             ),

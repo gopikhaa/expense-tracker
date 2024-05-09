@@ -6,7 +6,8 @@ import 'package:expense_tracker/services/pages/others/inforStat.dart';
 import 'package:expense_tracker/services/pages/reusable/pie_chart.dart';
 
 class IncomeChart extends StatelessWidget {
-  IncomeChart({Key? key, required this.time, required this.date}) : super(key: key);
+  IncomeChart({Key? key, required this.time, required this.date})
+      : super(key: key);
   final DateTime date;
   final String time;
 
@@ -18,8 +19,10 @@ class IncomeChart extends StatelessWidget {
         category.name: time == 'Monthly'
             ? TransactionManager().getIncomeMonthlyCategory(date, category.id)
             : time == 'Yearly'
-                ? TransactionManager().getIncomeYearlyCategory(date, category.id)
-                : TransactionManager().getIncomeWeeklyCategory(date, category.id),
+                ? TransactionManager()
+                    .getIncomeYearlyCategory(date, category.id)
+                : TransactionManager()
+                    .getIncomeWeeklyCategory(date, category.id),
     };
 
     dataMap.forEach((key, value) {

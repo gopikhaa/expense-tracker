@@ -30,12 +30,14 @@ class _TransPageState extends State<TransPage> {
     });
   }
 
-  void _editTransaction(
-      Trans tran, var newAccId, var newAcc2Id, var newAmount, var newCategory, var newNote, var newDate) {
+  void _editTransaction(Trans tran, var newAccId, var newAcc2Id, var newAmount,
+      var newCategory, var newNote, var newDate) {
     if (tran.type == Type.Transfer) {
       setState(() {
-        AccountManager.findAccById(tran.accId).amount += (tran.amount - newAmount);
-        AccountManager.findAccById(tran.acc2Id).amount -= (tran.amount - newAmount);
+        AccountManager.findAccById(tran.accId).amount +=
+            (tran.amount - newAmount);
+        AccountManager.findAccById(tran.acc2Id).amount -=
+            (tran.amount - newAmount);
         tran.accId = newAccId;
         tran.acc2Id = newAcc2Id;
         tran.amount = newAmount;
@@ -43,18 +45,25 @@ class _TransPageState extends State<TransPage> {
         tran.note = newNote;
         tran.date = newDate;
 
-        FireStore().editTransactionToFireStore(tran, newAccId, newAcc2Id, newAmount, newCategory, newNote, newDate);
+        FireStore().editTransactionToFireStore(tran, newAccId, newAcc2Id,
+            newAmount, newCategory, newNote, newDate);
       });
-      FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-          AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
-      FireStore().editAccountToFireStore(AccountManager.findAccById(tran.acc2Id),
-          AccountManager.findAccById(tran.acc2Id).name, AccountManager.findAccById(tran.acc2Id).amount);
+      FireStore().editAccountToFireStore(
+          AccountManager.findAccById(tran.accId),
+          AccountManager.findAccById(tran.accId).name,
+          AccountManager.findAccById(tran.accId).amount);
+      FireStore().editAccountToFireStore(
+          AccountManager.findAccById(tran.acc2Id),
+          AccountManager.findAccById(tran.acc2Id).name,
+          AccountManager.findAccById(tran.acc2Id).amount);
       Navigator.pop(context);
     } else {
       setState(() {
         tran.type == Type.Income
-            ? AccountManager.findAccById(tran.accId).amount -= (tran.amount - newAmount)
-            : AccountManager.findAccById(tran.accId).amount += (tran.amount - newAmount);
+            ? AccountManager.findAccById(tran.accId).amount -=
+                (tran.amount - newAmount)
+            : AccountManager.findAccById(tran.accId).amount +=
+                (tran.amount - newAmount);
         tran.accId = newAccId;
         tran.acc2Id = newAcc2Id;
         tran.amount = newAmount;
@@ -62,9 +71,12 @@ class _TransPageState extends State<TransPage> {
         tran.note = newNote;
         tran.date = newDate;
       });
-      FireStore().editTransactionToFireStore(tran, newAccId, newAcc2Id, newAmount, newCategory, newNote, newDate);
-      FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-          AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
+      FireStore().editTransactionToFireStore(
+          tran, newAccId, newAcc2Id, newAmount, newCategory, newNote, newDate);
+      FireStore().editAccountToFireStore(
+          AccountManager.findAccById(tran.accId),
+          AccountManager.findAccById(tran.accId).name,
+          AccountManager.findAccById(tran.accId).amount);
     }
     Navigator.pop(context);
   }
@@ -105,19 +117,27 @@ class _TransPageState extends State<TransPage> {
     setState(() {
       if (tran.type == Type.Income) {
         AccountManager.findAccById(tran.accId).amount -= tran.amount;
-        FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-            AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
+        FireStore().editAccountToFireStore(
+            AccountManager.findAccById(tran.accId),
+            AccountManager.findAccById(tran.accId).name,
+            AccountManager.findAccById(tran.accId).amount);
       } else if (tran.type == Type.Expense) {
         AccountManager.findAccById(tran.accId).amount += tran.amount;
-        FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-            AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
+        FireStore().editAccountToFireStore(
+            AccountManager.findAccById(tran.accId),
+            AccountManager.findAccById(tran.accId).name,
+            AccountManager.findAccById(tran.accId).amount);
       } else {
         AccountManager.findAccById(tran.accId).amount += tran.amount;
         AccountManager.findAccById(tran.acc2Id).amount -= tran.amount;
-        FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-            AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
-        FireStore().editAccountToFireStore(AccountManager.findAccById(tran.acc2Id),
-            AccountManager.findAccById(tran.acc2Id).name, AccountManager.findAccById(tran.acc2Id).amount);
+        FireStore().editAccountToFireStore(
+            AccountManager.findAccById(tran.accId),
+            AccountManager.findAccById(tran.accId).name,
+            AccountManager.findAccById(tran.accId).amount);
+        FireStore().editAccountToFireStore(
+            AccountManager.findAccById(tran.acc2Id),
+            AccountManager.findAccById(tran.acc2Id).name,
+            AccountManager.findAccById(tran.acc2Id).amount);
       }
       TransactionManager.trans.remove(tran);
       FireStore().removeTransactionToFireStore(tran);
@@ -125,7 +145,8 @@ class _TransPageState extends State<TransPage> {
         TransactionManager.weeklyTrans.remove(tran);
         TransactionManager.monthlyTrans.remove(tran);
         TransactionManager.yearlyTrans.remove(tran);
-      } else if (tran.date.month == _selectedDate.month && tran.date.year == _selectedDate.year) {
+      } else if (tran.date.month == _selectedDate.month &&
+          tran.date.year == _selectedDate.year) {
         TransactionManager.monthlyTrans.remove(tran);
         TransactionManager.yearlyTrans.remove(tran);
       } else if (tran.date.year == _selectedDate.year) {
@@ -142,31 +163,46 @@ class _TransPageState extends State<TransPage> {
               setState(() {
                 if (tran.type == Type.Income) {
                   AccountManager.findAccById(tran.accId).amount += tran.amount;
-                  FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-                      AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
+                  FireStore().editAccountToFireStore(
+                      AccountManager.findAccById(tran.accId),
+                      AccountManager.findAccById(tran.accId).name,
+                      AccountManager.findAccById(tran.accId).amount);
                 } else if (tran.type == Type.Expense) {
                   AccountManager.findAccById(tran.accId).amount -= tran.amount;
-                  FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-                      AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
+                  FireStore().editAccountToFireStore(
+                      AccountManager.findAccById(tran.accId),
+                      AccountManager.findAccById(tran.accId).name,
+                      AccountManager.findAccById(tran.accId).amount);
                 } else {
                   AccountManager.findAccById(tran.accId).amount -= tran.amount;
                   AccountManager.findAccById(tran.acc2Id).amount += tran.amount;
-                  FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-                      AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
-                  FireStore().editAccountToFireStore(AccountManager.findAccById(tran.acc2Id),
-                      AccountManager.findAccById(tran.acc2Id).name, AccountManager.findAccById(tran.acc2Id).amount);
+                  FireStore().editAccountToFireStore(
+                      AccountManager.findAccById(tran.accId),
+                      AccountManager.findAccById(tran.accId).name,
+                      AccountManager.findAccById(tran.accId).amount);
+                  FireStore().editAccountToFireStore(
+                      AccountManager.findAccById(tran.acc2Id),
+                      AccountManager.findAccById(tran.acc2Id).name,
+                      AccountManager.findAccById(tran.acc2Id).amount);
                 }
                 FireStore().addTransactionToFireStore(tran);
                 TransactionManager.trans.insert(transactionIndex, tran);
                 if (isSameWeek(tran.date, _selectedDate)) {
-                  TransactionManager.weeklyTrans.insert(weeklyTransactionIndex, tran);
-                  TransactionManager.monthlyTrans.insert(monthTransactionIndex, tran);
-                  TransactionManager.yearlyTrans.insert(yearlyTransactionIndex, tran);
-                } else if (tran.date.month == _selectedDate.month && tran.date.year == _selectedDate.year) {
-                  TransactionManager.monthlyTrans.insert(monthTransactionIndex, tran);
-                  TransactionManager.yearlyTrans.insert(yearlyTransactionIndex, tran);
+                  TransactionManager.weeklyTrans
+                      .insert(weeklyTransactionIndex, tran);
+                  TransactionManager.monthlyTrans
+                      .insert(monthTransactionIndex, tran);
+                  TransactionManager.yearlyTrans
+                      .insert(yearlyTransactionIndex, tran);
+                } else if (tran.date.month == _selectedDate.month &&
+                    tran.date.year == _selectedDate.year) {
+                  TransactionManager.monthlyTrans
+                      .insert(monthTransactionIndex, tran);
+                  TransactionManager.yearlyTrans
+                      .insert(yearlyTransactionIndex, tran);
                 } else if (tran.date.year == _selectedDate.year) {
-                  TransactionManager.yearlyTrans.insert(yearlyTransactionIndex, tran);
+                  TransactionManager.yearlyTrans
+                      .insert(yearlyTransactionIndex, tran);
                 }
               });
             }),
@@ -178,19 +214,27 @@ class _TransPageState extends State<TransPage> {
     setState(() {
       if (tran.type == Type.Income) {
         AccountManager.findAccById(tran.accId).amount += tran.amount;
-        FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-            AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
+        FireStore().editAccountToFireStore(
+            AccountManager.findAccById(tran.accId),
+            AccountManager.findAccById(tran.accId).name,
+            AccountManager.findAccById(tran.accId).amount);
       } else if (tran.type == Type.Expense) {
         AccountManager.findAccById(tran.accId).amount -= tran.amount;
-        FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-            AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
+        FireStore().editAccountToFireStore(
+            AccountManager.findAccById(tran.accId),
+            AccountManager.findAccById(tran.accId).name,
+            AccountManager.findAccById(tran.accId).amount);
       } else if (tran.type == Type.Transfer) {
         AccountManager.findAccById(tran.accId).amount -= tran.amount;
         AccountManager.findAccById(tran.acc2Id).amount += tran.amount;
-        FireStore().editAccountToFireStore(AccountManager.findAccById(tran.accId),
-            AccountManager.findAccById(tran.accId).name, AccountManager.findAccById(tran.accId).amount);
-        FireStore().editAccountToFireStore(AccountManager.findAccById(tran.acc2Id),
-            AccountManager.findAccById(tran.acc2Id).name, AccountManager.findAccById(tran.acc2Id).amount);
+        FireStore().editAccountToFireStore(
+            AccountManager.findAccById(tran.accId),
+            AccountManager.findAccById(tran.accId).name,
+            AccountManager.findAccById(tran.accId).amount);
+        FireStore().editAccountToFireStore(
+            AccountManager.findAccById(tran.acc2Id),
+            AccountManager.findAccById(tran.acc2Id).name,
+            AccountManager.findAccById(tran.acc2Id).amount);
       }
       TransactionManager.trans.add(tran);
       FireStore().addTransactionToFireStore(tran);
@@ -208,7 +252,8 @@ class _TransPageState extends State<TransPage> {
       final now = DateTime.now();
       final first = DateTime(now.year - 3, now.month, now.day);
       final last = DateTime(now.year + 2, now.month, now.day);
-      final pickedDate = await showDatePicker(context: context, firstDate: first, lastDate: last, initialDate: now);
+      final pickedDate = await showDatePicker(
+          context: context, firstDate: first, lastDate: last, initialDate: now);
       setState(() {
         _selectedDate = pickedDate!;
         TransactionManager().getTransactionsWeekly(_selectedDate);
@@ -300,6 +345,7 @@ class _TransPageState extends State<TransPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color.fromARGB(255, 6, 41, 154),
         onPressed: () {
           Navigator.push(
               context,
@@ -308,7 +354,10 @@ class _TransPageState extends State<TransPage> {
                         addTrans: addTrans,
                       )));
         },
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       body: PageView(
         onPageChanged: _onPageChange,

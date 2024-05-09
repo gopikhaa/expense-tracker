@@ -23,9 +23,12 @@ class NewIncome extends StatefulWidget {
 
 class _NewIncomeState extends State<NewIncome> {
   Account selectedAccount = Account.empty();
-  String showAccount = AccountManager.accounts.isNotEmpty ? "                     " : 'No accounts available';
-  String showCategory =
-      TransactionCategoryManager.incomeCategories.isNotEmpty ? "                   " : 'No category available';
+  String showAccount = AccountManager.accounts.isNotEmpty
+      ? "                     "
+      : 'No accounts available';
+  String showCategory = TransactionCategoryManager.incomeCategories.isNotEmpty
+      ? "                   "
+      : 'No category available';
   Category selectedCategory = Category.empty();
 
   var format = DateFormat('d/M/yyyy (E)');
@@ -44,7 +47,8 @@ class _NewIncomeState extends State<NewIncome> {
     final now = DateTime.now();
     final first = DateTime(now.year - 3, now.month, now.day);
     final last = DateTime(now.year + 2, now.month, now.day);
-    final pickedDate = await showDatePicker(context: context, firstDate: first, lastDate: last, initialDate: now);
+    final pickedDate = await showDatePicker(
+        context: context, firstDate: first, lastDate: last, initialDate: now);
     setState(() {
       _selectedDate = pickedDate!;
     });
@@ -88,7 +92,9 @@ class _NewIncomeState extends State<NewIncome> {
                             Icons.account_circle,
                             color: Colors.deepPurple,
                           ),
-                          tileColor: selectedAccount.name == account.name ? Colors.deepPurple.withOpacity(0.2) : null,
+                          tileColor: selectedAccount.name == account.name
+                              ? Colors.deepPurple.withOpacity(0.2)
+                              : null,
                           onTap: () {
                             Navigator.pop(context, account);
                           },
@@ -113,7 +119,10 @@ class _NewIncomeState extends State<NewIncome> {
   }
 
   void submitData() {
-    if (CheckData(amount: _amountController.text, account: selectedAccount, category: selectedCategory.id)
+    if (CheckData(
+            amount: _amountController.text,
+            account: selectedAccount,
+            category: selectedCategory.id)
         .checkDataTrans()) {
       Trans newIncome = Trans(
           date: _selectedDate,
@@ -171,7 +180,9 @@ class _NewIncomeState extends State<NewIncome> {
                             Icons.food_bank,
                             color: Colors.deepPurple,
                           ),
-                          tileColor: selectedCategory == category ? Colors.deepPurple.withOpacity(0.2) : null,
+                          tileColor: selectedCategory == category
+                              ? Colors.deepPurple.withOpacity(0.2)
+                              : null,
                           onTap: () {
                             Navigator.pop(context, category);
                           },
@@ -220,9 +231,17 @@ class _NewIncomeState extends State<NewIncome> {
               content: showCategory,
             ),
             const Gap(15),
-            AddTextField(icon: Icon(LineIcons.coins), label: 'Amount', controller: _amountController, keyNumber: true),
+            AddTextField(
+                icon: Icon(LineIcons.coins),
+                label: 'Amount',
+                controller: _amountController,
+                keyNumber: true),
             const Gap(15),
-            AddTextField(icon: Icon(LineIcons.camera), label: 'Note', controller: _noteController, keyNumber: false),
+            AddTextField(
+                icon: Icon(LineIcons.stickyNote),
+                label: 'Note',
+                controller: _noteController,
+                keyNumber: false),
             const Gap(30),
             AuthButton(buttonText: 'Save', fun: submitData)
           ],

@@ -1,7 +1,9 @@
 import 'package:expense_tracker/services/models/account.dart';
+import 'package:expense_tracker/network/repo/repo.dart';
 
 class CheckData {
-  CheckData({required this.amount, required this.account, required this.category});
+  CheckData(
+      {required this.amount, required this.account, required this.category});
   final String amount;
   final Account account;
   final String category;

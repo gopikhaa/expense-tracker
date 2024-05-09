@@ -27,7 +27,8 @@ class _StatsState extends State<Stats> {
     final now = DateTime.now();
     final first = DateTime(now.year - 3, now.month, now.day);
     final last = DateTime(now.year + 2, now.month, now.day);
-    final pickedDate = await showDatePicker(context: context, firstDate: first, lastDate: last, initialDate: now);
+    final pickedDate = await showDatePicker(
+        context: context, firstDate: first, lastDate: last, initialDate: now);
     setState(() {
       _selectedDate = pickedDate!;
     });
@@ -58,7 +59,8 @@ class _StatsState extends State<Stats> {
                 child: Text(
                   'Income',
                   style: TextStyle(
-                    color: _selectedPage == 0 ? Colors.black : Colors.deepPurple,
+                    color:
+                        _selectedPage == 0 ? Colors.black : Colors.deepPurple,
                   ),
                 ),
               ),
@@ -73,7 +75,8 @@ class _StatsState extends State<Stats> {
                 child: Text(
                   'Expense',
                   style: TextStyle(
-                    color: _selectedPage == 1 ? Colors.black : Colors.deepPurple,
+                    color:
+                        _selectedPage == 1 ? Colors.black : Colors.deepPurple,
                   ),
                 ),
               ),

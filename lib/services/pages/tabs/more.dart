@@ -1,90 +1,145 @@
+import 'package:expense_tracker/services/pages/others/currency_converter.dart';
+import 'package:expense_tracker/services/pages/others/splash_screen.dart';
+import 'package:expense_tracker/network/repo/repo.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:expense_tracker/services/pages/reusable/iconButtonText.dart';
-import 'package:expense_tracker/services/pages/reusable/customIcon.dart';
-import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:expense_tracker/services/pages/tabs/categoryPage.dart';
-import 'package:expense_tracker/services/pages/tabs/feedback.dart';
-import 'package:expense_tracker/services/pages/tabs/personalPage.dart';
 
-class More extends StatelessWidget {
+class More extends StatefulWidget {
   const More({Key? key}) : super(key: key);
 
   @override
+  State<More> createState() => _MoreState();
+}
+
+class _MoreState extends State<More> {
+  var box = GetStorage();
+
+  var emailId = "";
+
+  @override
+  void initState() {
+    box = GetStorage();
+    emailId = box.read("emailId").toString();
+
+    fetchExchangeRates();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+    return Scaffold(
+      body: Center(
         child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButtonText(
-                  fun: () {},
-                  label: 'Settings',
-                  icon: CustomIcon(imagePath: 'assets/icon/setting.png'),
-                ),
-                IconButtonText(
-                  fun: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PasswordChangePage(),
-                      ),
-                    );
-                  },
-                  label: 'Personal',
-                  icon: CustomIcon(
-                    imagePath: 'assets/icon/personal.png',
-                  ),
-                ),
-                IconButtonText(
-                  fun: () {},
-                  label: 'Style',
-                  icon: CustomIcon(imagePath: 'assets/icon/style.png'),
-                ),
-              ],
+          children: <Widget>[
+            SizedBox(
+              height: 100,
             ),
-            const Gap(50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButtonText(
-                  fun: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FeedBack(),
+            const CircleAvatar(
+              radius: 70,
+              backgroundImage: AssetImage('assets/icon/user.png'),
+              backgroundColor: Colors.white,
+            ),
+            SizedBox(height: 20),
+            Text(
+              emailId,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 29, 50, 118),
+              ),
+            ),
+            SizedBox(height: 20),
+            customCards('assets/icon/category.png', 'Category', () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CategoryPage(),
+                ),
+              );
+            }),
+            customCards(Icons.currency_exchange, "Currecny Converter", () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CurrencyConverter(),
+                ),
+              );
+            }),
+            SizedBox(
+              height: 30,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 50,
+                width: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  color: Color.fromARGB(255, 6, 41, 154),
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    FirebaseAuth.instance.signOut();
+                    box.erase();
+                    box.write("default", false);
+                    Get.offAll(const SplashScreen());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset(
+                          'assets/icon/logout.png',
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text("Sign Out",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white))
+                      ],
                     ),
                   ),
-                  label: 'Feedback',
-                  icon: CustomIcon(imagePath: 'assets/icon/feedback.png'),
                 ),
-                IconButtonText(
-                  fun: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CategoryPage(),
-                      ),
-                    );
-                  },
-                  label: 'Category',
-                  icon: CustomIcon(imagePath: 'assets/icon/category.png'),
-                ),
-                IconButtonText(
-                  fun: () {
-                    FirebaseAuth.instance.signOut();
-                    GoogleSignIn().signOut();
-                    GoogleSignIn().disconnect();
-                  },
-                  label: 'Sign Out',
-                  icon: CustomIcon(imagePath: 'assets/icon/logout.png'),
-                ),
-              ],
+              ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget customCards(imgPath, label, btnClick) {
+    return GestureDetector(
+      onTap: btnClick,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          color: Color.fromARGB(255, 6, 41, 154),
+          child: ListTile(
+            leading: (label == "Currecny Converter")
+                ? Icon(imgPath, color: Colors.white)
+                : Image.asset(
+                    imgPath,
+                    height: 30,
+                    color: Colors.white,
+                  ),
+            title: Text(label,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white)),
+          ),
         ),
       ),
     );

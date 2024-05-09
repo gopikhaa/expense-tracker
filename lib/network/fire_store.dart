@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_tracker/network/repo/repo.dart';
+import 'package:expense_tracker/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:expense_tracker/services/functions/account_manager.dart';
 import 'package:expense_tracker/services/functions/transaction_category_manager.dart';
@@ -22,7 +24,8 @@ class FireStore {
   Future<void> addTransactionToFireStore(Trans tran) async {
     final userId = getUserId();
 
-    CollectionReference transactionsCollection = FirebaseFirestore.instance.collection('users/$userId/transactions');
+    CollectionReference transactionsCollection =
+        FirebaseFirestore.instance.collection('users/$userId/transactions');
     await transactionsCollection.doc(tran.id).set({
       'note': tran.note,
       'amount': tran.amount,
@@ -38,13 +41,15 @@ class FireStore {
   Future<void> removeTransactionToFireStore(var tran) async {
     final userId = getUserId();
 
-    CollectionReference transactionsCollection = FirebaseFirestore.instance.collection('users/$userId/transactions');
+    CollectionReference transactionsCollection =
+        FirebaseFirestore.instance.collection('users/$userId/transactions');
     await transactionsCollection.doc(tran.id).delete();
   }
 
   Future<void> addIncomeCategoryToFireStore(Category category) async {
     final userId = getUserId();
-    CollectionReference categoryCollection = FirebaseFirestore.instance.collection('users/$userId/category');
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
 
     await categoryCollection.doc('income').set(
       {
@@ -56,7 +61,8 @@ class FireStore {
 
   Future<void> addExpenseCategoryToFireStore(Category category) async {
     final userId = getUserId();
-    CollectionReference categoryCollection = FirebaseFirestore.instance.collection('users/$userId/category');
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
 
     await categoryCollection.doc('expense').set(
       {
@@ -68,7 +74,8 @@ class FireStore {
 
   Future<void> removeIncomeCategoryFromFireStore(Category category) async {
     final userId = getUserId();
-    CollectionReference categoryCollection = FirebaseFirestore.instance.collection('users/$userId/category');
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
     await categoryCollection.doc('income').update({
       category.id: FieldValue.delete(),
     });
@@ -76,7 +83,8 @@ class FireStore {
 
   Future<void> removeExpenseCategoryFromFireStore(Category category) async {
     final userId = getUserId();
-    CollectionReference categoryCollection = FirebaseFirestore.instance.collection('users/$userId/category');
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
     await categoryCollection.doc('expense').update({
       category.id: FieldValue.delete(),
     });
@@ -85,7 +93,8 @@ class FireStore {
   Future<void> addAccountToFireStore(Account acc) async {
     final userId = getUserId();
 
-    CollectionReference transactionsCollection = FirebaseFirestore.instance.collection('users/$userId/accounts');
+    CollectionReference transactionsCollection =
+        FirebaseFirestore.instance.collection('users/$userId/accounts');
     await transactionsCollection.doc(acc.id).set({
       'amount': acc.amount,
       'id': acc.id,
@@ -95,39 +104,53 @@ class FireStore {
 
   Future<void> removeAccountToFireStore(var acc) async {
     final userId = getUserId();
-    CollectionReference accountCollection = FirebaseFirestore.instance.collection('/users/$userId/accounts');
+    CollectionReference accountCollection =
+        FirebaseFirestore.instance.collection('/users/$userId/accounts');
     await accountCollection.doc(acc.id).delete();
   }
 
-  Future<void> editAccountToFireStore(var acc, var newName, var newAmount) async {
+  Future<void> editAccountToFireStore(
+      var acc, var newName, var newAmount) async {
     final userId = getUserId();
-    CollectionReference accountCollection = FirebaseFirestore.instance.collection('users/$userId/accounts');
+    CollectionReference accountCollection =
+        FirebaseFirestore.instance.collection('users/$userId/accounts');
     await accountCollection.doc(acc.id).update({
       'amount': newAmount,
       'name': newName,
     });
   }
 
-  Future<void> editIncomeCategoryToFireStore(var newName, Category category) async {
+  Future<void> editIncomeCategoryToFireStore(
+      var newName, Category category) async {
     final userId = getUserId();
-    CollectionReference categoryCollection = FirebaseFirestore.instance.collection('users/$userId/category');
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
     await categoryCollection.doc('income').update({
       category.id: newName,
     });
   }
 
-  Future<void> editExpenseCategoryToFireStore(var newName, Category category) async {
+  Future<void> editExpenseCategoryToFireStore(
+      var newName, Category category) async {
     final userId = getUserId();
-    CollectionReference categoryCollection = FirebaseFirestore.instance.collection('users/$userId/category');
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
     await categoryCollection.doc('expense').update({
       category.id: newName,
     });
   }
 
   Future<void> editTransactionToFireStore(
-      Trans transfer, var newAccId, var newAcc2Id, var newAmount, var newCategory, var newNote, var newDate) async {
+      Trans transfer,
+      var newAccId,
+      var newAcc2Id,
+      var newAmount,
+      var newCategory,
+      var newNote,
+      var newDate) async {
     final userId = getUserId();
-    CollectionReference transferCollection = FirebaseFirestore.instance.collection('/users/$userId/transactions');
+    CollectionReference transferCollection =
+        FirebaseFirestore.instance.collection('/users/$userId/transactions');
     await transferCollection.doc(transfer.id).update({
       'note': newNote,
       'amount': newAmount,
@@ -140,10 +163,13 @@ class FireStore {
 
   Future<void> fetchAllTransactionsFromFireStore(var userId) async {
     TransactionManager.trans.clear();
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-        await FirebaseFirestore.instance.collection('users/$userId/transactions').get();
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('users/$userId/transactions')
+        .get();
 
-    for (QueryDocumentSnapshot<Map<String, dynamic>> document in snapshot.docs) {
+    for (QueryDocumentSnapshot<Map<String, dynamic>> document
+        in snapshot.docs) {
       Map<String, dynamic> data = document.data();
       Trans tran = Trans.old(
         accId: data['acc1'],
@@ -163,10 +189,14 @@ class FireStore {
 
   Future<void> fetchAllDataFromFireStore(var userId) async {
     AccountManager.accounts.clear();
-    QuerySnapshot<Map<String, dynamic>> snapshot2 =
-        await FirebaseFirestore.instance.collection('users/$userId/accounts').get();
 
-    for (QueryDocumentSnapshot<Map<String, dynamic>> document in snapshot2.docs) {
+    QuerySnapshot<Map<String, dynamic>> snapshot2 = await FirebaseFirestore
+        .instance
+        .collection('users/$userId/accounts')
+        .get();
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> document
+        in snapshot2.docs) {
       Map<String, dynamic> data = document.data();
       Account acc = Account.old(
         name: data['name'],
@@ -179,7 +209,10 @@ class FireStore {
     TransactionCategoryManager.expenseCategories.clear();
 
     DocumentSnapshot<Map<String, dynamic>> snapshotIncomeCate =
-        await FirebaseFirestore.instance.collection('users/$userId/category').doc('income').get();
+        await FirebaseFirestore.instance
+            .collection('users/$userId/category')
+            .doc('income')
+            .get();
     Map<String, dynamic>? incomeCategoryData = snapshotIncomeCate.data();
 
     if (incomeCategoryData != null) {
@@ -196,7 +229,10 @@ class FireStore {
     }
 
     DocumentSnapshot<Map<String, dynamic>> snapshotExpenseCate =
-        await FirebaseFirestore.instance.collection('users/$userId/category').doc('expense').get();
+        await FirebaseFirestore.instance
+            .collection('users/$userId/category')
+            .doc('expense')
+            .get();
 
     Map<String, dynamic>? expenseCategoryData = snapshotExpenseCate.data();
 
@@ -211,6 +247,42 @@ class FireStore {
           ),
         );
       }
+    }
+  }
+
+  void addCustomCategoryToDB() {
+    List incomeCat = [
+      "Salary/Wages",
+      "Investment Income",
+      "Side Hustle/Additional Income",
+      "Pensions/Retirement"
+    ];
+    List expenseCat = ["Housing", "Food", "Healthcare", "Entertainment"];
+
+    for (var element in incomeCat) {
+      addIncomeCategoryToFireStore(Category(name: element));
+    }
+
+    for (var element in expenseCat) {
+      addExpenseCategoryToFireStore(Category(name: element));
+    }
+  }
+
+  Future<void> addDefaultCurrency(String defaultCurrency) async {
+    try {
+      // Get the current user's ID
+      final userId = getUserId();
+
+      // Get reference to Firebase Database
+      CollectionReference transferCollection =
+          FirebaseFirestore.instance.collection('/users/$userId/default');
+
+      // Set the value at the specified path
+      await transferCollection.doc().set({"c_key": defaultCurrency});
+
+      print("Data added to Firebase successfully!");
+    } catch (e) {
+      print("Error adding data to Firebase: $e");
     }
   }
 }

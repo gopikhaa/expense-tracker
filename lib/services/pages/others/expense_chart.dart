@@ -6,7 +6,8 @@ import 'package:expense_tracker/services/pages/others/inforStat.dart';
 import 'package:expense_tracker/services/pages/reusable/pie_chart.dart';
 
 class ExpenseChart extends StatelessWidget {
-  ExpenseChart({Key? key, required this.time, required this.date}) : super(key: key);
+  ExpenseChart({Key? key, required this.time, required this.date})
+      : super(key: key);
   final DateTime date;
   final String time;
 
@@ -18,8 +19,10 @@ class ExpenseChart extends StatelessWidget {
         category.name: time == 'Monthly'
             ? TransactionManager().getExpenseMonthlyCategory(date, category.id)
             : time == 'Yearly'
-                ? TransactionManager().getExpenseYearlyCategory(date, category.id)
-                : TransactionManager().getExpenseWeeklyCategory(date, category.id),
+                ? TransactionManager()
+                    .getExpenseYearlyCategory(date, category.id)
+                : TransactionManager()
+                    .getExpenseWeeklyCategory(date, category.id),
     };
     dataMap.forEach((key, value) {
       total += value;

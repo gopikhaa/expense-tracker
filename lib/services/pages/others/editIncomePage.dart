@@ -14,7 +14,8 @@ import 'package:expense_tracker/services/models/trans.dart';
 import 'package:expense_tracker/services/functions/checkData.dart';
 
 class EditIncomePage extends StatefulWidget {
-  EditIncomePage({required this.editTrans, required this.tran, Key? key}) : super(key: key);
+  EditIncomePage({required this.editTrans, required this.tran, Key? key})
+      : super(key: key);
 
   final Function editTrans;
   final Trans tran;
@@ -35,14 +36,18 @@ class _EditIncomePageState extends State<EditIncomePage> {
   @override
   void initState() {
     selectedAccount = AccountManager.findAccById(widget.tran.accId);
-    showAccount = AccountManager.accounts.isNotEmpty ? selectedAccount.name : 'No accounts available';
+    showAccount = AccountManager.accounts.isNotEmpty
+        ? selectedAccount.name
+        : 'No accounts available';
     showCategory = TransactionCategoryManager.incomeCategories.isNotEmpty
-        ? TransactionCategoryManager.getCategoryFromId(widget.tran.category).name
+        ? TransactionCategoryManager.getCategoryFromId(widget.tran.category)
+            .name
         : 'No category available';
     _selectedDate = widget.tran.date;
     _amountController.text = widget.tran.amount.toString();
     _noteController.text = widget.tran.note;
-    selectedCategory = TransactionCategoryManager.getCategoryFromId(widget.tran.category);
+    selectedCategory =
+        TransactionCategoryManager.getCategoryFromId(widget.tran.category);
     super.initState();
   }
 
@@ -57,7 +62,8 @@ class _EditIncomePageState extends State<EditIncomePage> {
     final now = DateTime.now();
     final first = DateTime(now.year - 3, now.month, now.day);
     final last = DateTime(now.year + 2, now.month, now.day);
-    final pickedDate = await showDatePicker(context: context, firstDate: first, lastDate: last, initialDate: now);
+    final pickedDate = await showDatePicker(
+        context: context, firstDate: first, lastDate: last, initialDate: now);
     setState(() {
       _selectedDate = pickedDate!;
     });
@@ -101,7 +107,9 @@ class _EditIncomePageState extends State<EditIncomePage> {
                             Icons.account_circle,
                             color: Colors.deepPurple,
                           ),
-                          tileColor: selectedAccount.name == account.name ? Colors.deepPurple.withOpacity(0.2) : null,
+                          tileColor: selectedAccount.name == account.name
+                              ? Colors.deepPurple.withOpacity(0.2)
+                              : null,
                           onTap: () {
                             Navigator.pop(context, account);
                           },
@@ -126,10 +134,19 @@ class _EditIncomePageState extends State<EditIncomePage> {
   }
 
   void submitData() {
-    if (CheckData(amount: _amountController.text, account: selectedAccount, category: selectedCategory.id)
+    if (CheckData(
+            amount: _amountController.text,
+            account: selectedAccount,
+            category: selectedCategory.id)
         .checkDataTrans()) {
-      widget.editTrans(widget.tran, selectedAccount.id, "", double.parse(_amountController.text), selectedCategory.id,
-          _noteController.text, _selectedDate);
+      widget.editTrans(
+          widget.tran,
+          selectedAccount.id,
+          "",
+          double.parse(_amountController.text),
+          selectedCategory.id,
+          _noteController.text,
+          _selectedDate);
     } else {
       showDialog(
         context: context,
@@ -178,7 +195,9 @@ class _EditIncomePageState extends State<EditIncomePage> {
                             Icons.food_bank,
                             color: Colors.deepPurple,
                           ),
-                          tileColor: selectedCategory == category ? Colors.deepPurple.withOpacity(0.2) : null,
+                          tileColor: selectedCategory == category
+                              ? Colors.deepPurple.withOpacity(0.2)
+                              : null,
                           onTap: () {
                             Navigator.pop(context, category);
                           },
@@ -230,9 +249,17 @@ class _EditIncomePageState extends State<EditIncomePage> {
               content: showCategory,
             ),
             const Gap(15),
-            AddTextField(icon: Icon(LineIcons.coins), label: 'Amount', controller: _amountController, keyNumber: true),
+            AddTextField(
+                icon: Icon(LineIcons.coins),
+                label: 'Amount',
+                controller: _amountController,
+                keyNumber: true),
             const Gap(15),
-            AddTextField(icon: Icon(LineIcons.camera), label: 'Note', controller: _noteController, keyNumber: false),
+            AddTextField(
+                icon: Icon(LineIcons.stickyNote),
+                label: 'Note',
+                controller: _noteController,
+                keyNumber: false),
             const Gap(30),
             AuthButton(buttonText: 'Save', fun: submitData)
           ],

@@ -1,8 +1,7 @@
-import 'package:expense_tracker/auth/login_or_register.dart';
+import 'package:expense_tracker/auth/login.dart';
 import 'package:expense_tracker/services/pages/others/homePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:expense_tracker/services/pages/others/homePage.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -16,7 +15,7 @@ class AuthPage extends StatelessWidget {
           if (snapshot.hasData) {
             return HomePage();
           } else {
-            return LoginOrRegister();
+            return Login();
           }
         }),
       ),

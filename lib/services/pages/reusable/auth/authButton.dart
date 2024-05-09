@@ -15,7 +15,7 @@ class AuthButton extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 20),
           decoration: BoxDecoration(
-            color: Colors.deepPurple,
+            color: Color.fromARGB(255, 6, 41, 154),
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(12),
           ),
@@ -23,7 +23,7 @@ class AuthButton extends StatelessWidget {
             child: Text(
               buttonText,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 20,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
