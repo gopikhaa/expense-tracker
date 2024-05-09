@@ -246,10 +246,6 @@ xdg_directories
 3.0
 file:///Users/arshadulrahman/.pub-cache/hosted/pub.dev/xdg_directories-1.0.4/
 file:///Users/arshadulrahman/.pub-cache/hosted/pub.dev/xdg_directories-1.0.4/lib/
-expense_tracker
-3.3
-file:///Users/arshadulrahman/Downloads/final/expense-tracker-1/
-file:///Users/arshadulrahman/Downloads/final/expense-tracker-1/lib/
 sky_engine
 3.2
 file:///Users/arshadulrahman/development/flutter/bin/cache/pkg/sky_engine/
@@ -266,4 +262,8 @@ flutter_web_plugins
 3.2
 file:///Users/arshadulrahman/development/flutter/packages/flutter_web_plugins/
 file:///Users/arshadulrahman/development/flutter/packages/flutter_web_plugins/lib/
+expense_tracker
+3.3
+file:///Users/arshadulrahman/development/personal/expense-tracker-lbs/
+file:///Users/arshadulrahman/development/personal/expense-tracker-lbs/lib/
 2
