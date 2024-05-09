@@ -4,23 +4,23 @@
     minSdkVersion="19"
     targetSdkVersion="33"
     shrinking="true"
-    mergedManifest="/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/intermediates/merged_manifest/release/AndroidManifest.xml"
-    manifestMergeReport="/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/outputs/logs/manifest-merger-release-report.txt"
-    proguardFiles="/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/intermediates/default_proguard_files/global/proguard-android.txt-7.3.0:/Users/arshadulrahman/development/flutter/packages/flutter_tools/gradle/flutter_proguard_rules.pro:proguard-rules.pro"
-    partialResultsDir="/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/intermediates/lint_vital_partial_results/release/out">
+    mergedManifest="C:\Users\91965\Documents\DART\expense-tracker\build\app\intermediates\merged_manifest\release\AndroidManifest.xml"
+    manifestMergeReport="C:\Users\91965\Documents\DART\expense-tracker\build\app\outputs\logs\manifest-merger-release-report.txt"
+    proguardFiles="C:\Users\91965\Documents\DART\expense-tracker\build\app\intermediates\default_proguard_files\global\proguard-android.txt-7.3.0;C:\Users\91965\Documents\flutter_windows_3.10.2-stable\flutter\packages\flutter_tools\gradle\flutter_proguard_rules.pro;proguard-rules.pro"
+    partialResultsDir="C:\Users\91965\Documents\DART\expense-tracker\build\app\intermediates\lint_vital_partial_results\release\out">
   <buildFeatures
       namespacing="REQUIRED"/>
   <sourceProviders>
     <sourceProvider
-        manifest="src/main/AndroidManifest.xml"
-        javaDirectories="src/main/java:src/main/kotlin"
-        resDirectories="src/main/res"
-        assetsDirectories="src/main/assets"/>
+        manifest="src\main\AndroidManifest.xml"
+        javaDirectories="src\main\java;src\main\kotlin"
+        resDirectories="src\main\res"
+        assetsDirectories="src\main\assets"/>
     <sourceProvider
-        manifest="src/release/AndroidManifest.xml"
-        javaDirectories="src/release/java:src/release/kotlin"
-        resDirectories="src/release/res"
-        assetsDirectories="src/release/assets"/>
+        manifest="src\release\AndroidManifest.xml"
+        javaDirectories="src\release\java;src\release\kotlin"
+        resDirectories="src\release\res"
+        assetsDirectories="src\release\assets"/>
   </sourceProviders>
   <testSourceProviders>
   </testSourceProviders>
@@ -32,9 +32,9 @@
         value="android.app.Application" />
   </manifestPlaceholders>
   <mainArtifact
-      classOutputs="/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/intermediates/javac/release/classes:/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/tmp/kotlin-classes/release:/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/kotlinToolingMetadata:/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/R.jar"
+      classOutputs="C:\Users\91965\Documents\DART\expense-tracker\build\app\intermediates\javac\release\classes;C:\Users\91965\Documents\DART\expense-tracker\build\app\tmp\kotlin-classes\release;C:\Users\91965\Documents\DART\expense-tracker\build\app\kotlinToolingMetadata;C:\Users\91965\Documents\DART\expense-tracker\build\app\intermediates\compile_and_runtime_not_namespaced_r_class_jar\release\R.jar"
       applicationId="com.lbscollege.expense_tracker"
-      generatedSourceFolders="/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/generated/ap_generated_sources/release/out:/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/generated/aidl_source_output_dir/release/out:/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/generated/source/buildConfig/release:/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/generated/renderscript_source_output_dir/release/out"
-      generatedResourceFolders="/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/generated/res/google-services/release:/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/generated/res/rs/release:/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/generated/res/resValues/release">
+      generatedSourceFolders="C:\Users\91965\Documents\DART\expense-tracker\build\app\generated\ap_generated_sources\release\out;C:\Users\91965\Documents\DART\expense-tracker\build\app\generated\aidl_source_output_dir\release\out;C:\Users\91965\Documents\DART\expense-tracker\build\app\generated\source\buildConfig\release;C:\Users\91965\Documents\DART\expense-tracker\build\app\generated\renderscript_source_output_dir\release\out"
+      generatedResourceFolders="C:\Users\91965\Documents\DART\expense-tracker\build\app\generated\res\google-services\release;C:\Users\91965\Documents\DART\expense-tracker\build\app\generated\res\rs\release;C:\Users\91965\Documents\DART\expense-tracker\build\app\generated\res\resValues\release">
   </mainArtifact>
 </variant>

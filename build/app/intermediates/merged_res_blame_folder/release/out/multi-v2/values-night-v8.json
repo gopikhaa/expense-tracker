@@ -4,14 +4,14 @@
             "outputFile": "com.lbscollege.expense_tracker.app-mergeReleaseResources-15:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "/Users/arshadulrahman/development/personal/expense-tracker-lbs/android/app/src/main/res/values-night/styles.xml",
+                    "source": "C:\\Users\\91965\\Documents\\DART\\expense-tracker\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
-                        "startOffsets": "172,817",
+                        "startOffsets": "175,831",
                         "endLines": "7,16",
                         "endColumns": "12,12",
-                        "endOffsets": "475,981"
+                        "endOffsets": "482,997"
                     },
                     "to": {
                         "startLines": "2,6",

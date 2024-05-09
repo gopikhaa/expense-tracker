@@ -1,4 +1,4 @@
-#Fri May 10 02:01:06 IST 2024
-base.0=/Users/arshadulrahman/development/personal/expense-tracker-lbs/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+#Fri May 10 02:22:29 IST 2024
+base.0=C\:\\Users\\91965\\Documents\\DART\\expense-tracker\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
